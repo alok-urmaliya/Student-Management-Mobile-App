@@ -7,6 +7,6 @@
              Title="Student List">
     <VerticalStackLayout>
         <Label Text="Student List" FontSize="28"/>
-        <Button Text="Add Student" Command="{Binding AddStudentCommand}" HorizontalOptions="EndAndExpand"/>
+        <Button Text="Add Student" Command="{Binding AddStudentButtonCommand}" HorizontalOptions="EndAndExpand"/>
     </VerticalStackLayout>
 </ContentPage>

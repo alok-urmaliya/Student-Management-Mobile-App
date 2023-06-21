@@ -11,7 +11,7 @@ namespace App01.ViewModel
     public partial class StudentListViewModel : ObservableObject
     {
         [ICommand]
-        public async void AddStudent()
+        public async void AddStudentButton()
         {
             await AppShell.Current.GoToAsync(nameof(App01.View.AddStudent));
         }

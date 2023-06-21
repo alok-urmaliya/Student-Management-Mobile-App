@@ -13,7 +13,7 @@ namespace App01.Services
     {
         bool IStudentService.AddStudent(Student student)
         {
-            throw new NotImplementedException();
+            return true;    
         }
 
         List<Student> IStudentService.GetStudents()
