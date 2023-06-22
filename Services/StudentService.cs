@@ -19,7 +19,7 @@ namespace App01.Services
         List<Student> IStudentService.GetStudents()
         {
             List<Student> students = new List<Student>();
-            string connectionString = "Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword;";
+            string connectionString = "Data Source=192.168.29.78;Initial Catalog=StudentDb;User Id=developer;Password=dev@123;Trusted_Connection=True;TrustServerCertificate=true;Encrypt=False";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 if (connection == null)
