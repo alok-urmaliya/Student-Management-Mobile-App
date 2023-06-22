@@ -1,9 +1,11 @@
 ﻿using App01.Model;
 using Microsoft.Data.SqlClient;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,52 +13,73 @@ namespace App01.Services
 {
     public class StudentService : IStudentService
     {
-        bool IStudentService.AddStudent(Student student)
+        private SQLiteAsyncConnection _dbConnection;
+        public StudentService()
         {
-            return true;    
+            SetupDb();
         }
 
-        List<Student> IStudentService.GetStudents()
+        public async void SetupDb()
         {
-            List<Student> students = new List<Student>();
-            string connectionString = "Data Source=SERVER_IP_ADDRESS;Initial Catalog=StudentDb;User Id=developer;Password=dev@123;Trusted_Connection=True;TrustServerCertificate=true;Encrypt=False";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            if (_dbConnection == null)
             {
-                if (connection == null)
-                {
-                    throw new Exception("connection was not established");
-                }
-                    
-                connection.Open();
-
-                SqlCommand comm = new SqlCommand("SELECT * FROM students", connection);
-                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(comm);
-                DataTable dataTable = new DataTable();
-                sqlDataAdapter.Fill(dataTable);
-
-                foreach (DataRow row in dataTable.Rows)
-                {
-                    Student s = new Student();
-                    s.studentid = (int)row["studentid"];
-                    s.Firstname = row["Firstname"].ToString();
-                    s.Lastname = row["Lastname"].ToString();
-                    s.email = row["email"].ToString();
-
-                    students.Add(s);
-                }
-                comm.ExecuteNonQuery();
+                string dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Student.db3");
+                _dbConnection = new SQLiteAsyncConnection(dbPath);
+                await _dbConnection.CreateTableAsync<Student>();
             }
+        }
+        
+        async Task<List<Student>> IStudentService.GetStudents()
+        {
+            //USING SQLITE3
+
+            var students = await _dbConnection.Table<Student>().ToListAsync();
             return students;
+
+            //For SQL SERVER
+
+            //List<Student> students = new List<Student>();
+            //string connectionString = "Data Source=SERVER_IP_;TrustServerCertificate=True;Trusted_Connection=True;Initial Catalog=StudentDb;User Id=developer;Password=dev@123";
+            //using (SqlConnection connection = new SqlConnection(connectionString))
+            //{
+            //    if (connection == null)
+            //    {
+            //        throw new Exception("connection was not established");
+            //    }
+                    
+            //    connection.Open();
+
+            //    SqlCommand comm = new SqlCommand("SELECT * FROM students", connection);
+            //    SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(comm);
+            //    DataTable dataTable = new DataTable();
+            //    sqlDataAdapter.Fill(dataTable);
+
+            //    foreach (DataRow row in dataTable.Rows)
+            //    {
+            //        Student s = new Student();
+            //        s.studentid = (int)row["studentid"];
+            //        s.Firstname = row["Firstname"].ToString();
+            //        s.Lastname = row["Lastname"].ToString();
+            //        s.email = row["email"].ToString();
+
+            //        students.Add(s);
+            //    }
+            //    comm.ExecuteNonQuery();
+            //}
+            //return students;
+        }
+        Task<int> IStudentService.AddStudent(Student student)
+        {
+            return _dbConnection.InsertAsync(student);
+        }
+        Task<int> IStudentService.RemoveStudent(Student student)
+        {
+            return _dbConnection.DeleteAsync(student);
         }
 
-        bool IStudentService.RemoveStudent(Student student)
+        Task<int> IStudentService.UpdateStudent(Student student)
         {
-            throw new NotImplementedException();
-        }
-
-        bool IStudentService.UpdateStudent(Student student)
-        {
-            throw new NotImplementedException();
+            return _dbConnection.UpdateAsync(student);
         }
     }
 }

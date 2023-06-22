@@ -9,9 +9,9 @@ namespace App01.Services
 {
     public interface IStudentService
     {
-        public List<Student> GetStudents();
-        public bool AddStudent(Student student);
-        public bool RemoveStudent(Student student);
-        public bool UpdateStudent(Student student);
+        public Task<List<Student>> GetStudents();
+        public Task<int> AddStudent(Student student);
+        public Task<int> RemoveStudent(Student student);
+        public Task<int> UpdateStudent(Student student);
     }
 }
