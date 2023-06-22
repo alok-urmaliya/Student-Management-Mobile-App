@@ -22,10 +22,10 @@ namespace App01.ViewModel
         }
 
         [ICommand]
-        public void GetStudentList()
+        public async void GetStudentList()
         {
-            var studentList = _studentService.GetStudents();
-            if(studentList?.Count > 0)
+            var studentList = await _studentService.GetStudents();
+            if(studentList.Count() > 0)
             {
                 Students.Clear();
                 foreach (var student in studentList) 

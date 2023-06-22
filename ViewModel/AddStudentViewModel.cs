@@ -29,14 +29,14 @@ namespace App01.ViewModel
         [ICommand]
         public async void AddStudentDb()
         {
-            var response = _studentservice.AddStudent(new Model.Student
+            var response = await _studentservice.AddStudent(new Model.Student
             { 
                 Firstname = _firstName,
                 Lastname = _lastName,
                 email = _email
             });
 
-            if(response == true)
+            if(response > 0)
             {
                 await Shell.Current.DisplayAlert("Record Added", "Record Added to the students list", "Ok");
             }
