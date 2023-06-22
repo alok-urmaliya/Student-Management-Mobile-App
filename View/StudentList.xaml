@@ -12,12 +12,19 @@
         <CollectionView ItemsSource="{Binding Students}">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:Student">
-                    <StackLayout Margin="10">
-                        <HorizontalStackLayout Spacing="15">
-                            <Label Text="{Binding Firstname}"/>
-                            <Label Text="{Binding Lastname}"/>
-                        </HorizontalStackLayout>
-                    </StackLayout>
+                    <Frame Margin="10" Padding="10" >
+                        <StackLayout >
+                            <HorizontalStackLayout Spacing="15">
+                                <Label Text="{Binding Firstname}" FontSize="18" FontAttributes="Bold"/>
+                                <Label Text="{Binding Lastname}" FontSize="18" FontAttributes="Bold"/>
+                            </HorizontalStackLayout>
+                            <Label Text="{Binding email}"/>
+                        </StackLayout>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Source={x:RelativeSource AncestorType={x:Type viewModels:StudentListViewModel}},Path=DisplayActionCommand}"
+                                                  CommandParameter="{Binding .}"/>
+                        </Frame.GestureRecognizers>
+                    </Frame>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
