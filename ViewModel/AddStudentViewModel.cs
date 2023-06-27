@@ -33,17 +33,19 @@ namespace App01.ViewModel
                 }
                 else
                 {
-                response = await _studentservice.AddStudent(new Model.Student
-                {
-                    Firstname = StudentDetail.Firstname,
-                    Lastname = StudentDetail.Lastname,
-                    email = StudentDetail.email
-                });
+                    response = await _studentservice.AddStudent(new Model.Student
+                    {
+                        Firstname = StudentDetail.Firstname,
+                        Lastname = StudentDetail.Lastname,
+                        email = StudentDetail.email
+                    });
+                }
             }
 
             if (response > 0)
             {
-                await Shell.Current.DisplayAlert("Student Details Saved", "Record Saved", "Ok");
+                //await Shell.Current.DisplayAlert("Student Details Saved", "Record Saved", "Ok");
+                await AppShell.Current.GoToAsync(nameof(App01.View.StudentList));
             }
             else
             {
