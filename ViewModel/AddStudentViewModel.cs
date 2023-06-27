@@ -26,6 +26,13 @@ namespace App01.ViewModel
             }
             else
             {
+                List<string> check_email = await _studentservice.GetEmails();
+                if(check_email.Contains(StudentDetail.email))
+                {
+                    await Shell.Current.DisplayAlert("Email Already Exists", "can not save the student", "Ok");
+                }
+                else
+                {
                 response = await _studentservice.AddStudent(new Model.Student
                 {
                     Firstname = StudentDetail.Firstname,
@@ -40,7 +47,7 @@ namespace App01.ViewModel
             }
             else
             {
-                await Shell.Current.DisplayAlert("Not saved", "Something went wrong while saving the record", "Bad Request");
+                await Shell.Current.DisplayAlert("Not saved", "Something went wrong while saving the record","Check student Details");
             }
         }
     }

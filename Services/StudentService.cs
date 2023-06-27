@@ -1,13 +1,5 @@
 ﻿using App01.Model;
-using Microsoft.Data.SqlClient;
 using SQLite;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace App01.Services
 {
@@ -80,6 +72,17 @@ namespace App01.Services
         Task<int> IStudentService.UpdateStudent(Student student)
         {
             return _dbConnection.UpdateAsync(student);
+        }
+
+        async Task<List<string>> IStudentService.GetEmails()
+        {
+            var students = await _dbConnection.Table<Student>().ToListAsync();
+            List<string> emails = new List<string>();
+            foreach(Student student in students)
+            {
+                emails.Add(student.email);
+            }
+            return emails;
         }
     }
 }

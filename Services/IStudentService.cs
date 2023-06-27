@@ -13,5 +13,6 @@ namespace App01.Services
         public Task<int> AddStudent(Student student);
         public Task<int> RemoveStudent(Student student);
         public Task<int> UpdateStudent(Student student);
+        public Task<List<string>> GetEmails();
     }
 }
