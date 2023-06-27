@@ -41,15 +41,10 @@ namespace App01.ViewModel
                     });
                 }
             }
-
             if (response > 0)
             {
                 //await Shell.Current.DisplayAlert("Student Details Saved", "Record Saved", "Ok");
                 await AppShell.Current.GoToAsync(nameof(App01.View.StudentList));
-            }
-            else
-            {
-                await Shell.Current.DisplayAlert("Not saved", "Something went wrong while saving the record","Check student Details");
             }
         }
     }
